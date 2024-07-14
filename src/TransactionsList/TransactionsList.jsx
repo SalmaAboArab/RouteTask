@@ -75,7 +75,7 @@ export default function TransactionsList() {
       <Filter getItems={getFilterdData} />
 
       <div className="tableContainer w-100">
-      <div className="TransactionsList container border text-center">
+      <div className="TransactionsList container border text-center mb-3">
        {isLoading ? (
             <Loading/>
         )
