@@ -2,9 +2,7 @@ import { RouterProvider, createBrowserRouter, createHashRouter } from "react-rou
 import "./App.css";
 import NotFound from "./SharedModule/Components/NotFound/NotFound";
 import MasterLayout from "./SharedModule/Components/MasterLayout/MasterLayout";
-import GroupsList from "./GroupsList/GroupsList";
-import PostDetails from "./Posts/Components/PostDetails/PostDetails";
-import PostsList from "./Posts/Components/PostsList/PostsList";
+import TransactionsList from "./TransactionsList/TransactionsList";
 
 function App() {
   const routes = createHashRouter([
@@ -13,9 +11,7 @@ function App() {
       element: <MasterLayout />,
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <GroupsList /> },
-        { path: "posts/:index", element: <PostsList /> },
-        { path: "post-details/:groupindex/:postindex", element: <PostDetails /> },
+        { index: true, element: <TransactionsList /> },
       ],
     },
   ]);
