@@ -14,17 +14,19 @@ export default function TransactionsList() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
-  const transactionsNumPerPage = 9;
-  const [CurrentPageNum, setCurrentPageNum] = useState(1);
-  const NbPages = Math.ceil(allData?.length / transactionsNumPerPage);
-  const startIndex = (CurrentPageNum - 1) * transactionsNumPerPage;
-  const endIndex = startIndex + transactionsNumPerPage;
-  const DataPerPage = allTransactions?.slice(startIndex, endIndex);
+
+  //data for pagination//
+
+  // const transactionsNumPerPage = 9;
+  // const [CurrentPageNum, setCurrentPageNum] = useState(1);
+  // const NbPages = Math.ceil(allData?.length / transactionsNumPerPage);
+  // const startIndex = (CurrentPageNum - 1) * transactionsNumPerPage;
+  // const endIndex = startIndex + transactionsNumPerPage;
+  // const DataPerPage = allTransactions?.slice(startIndex, endIndex);
 
   async function getAllData() {
     try {
       const transactions= await axios.get('https://mocki.io/v1/e45d80cf-fcf1-47be-9400-85bc39c37c52');
-      console.log(transactions.data);
       setAllData(transactions?.data);
       setAllTransactions(transactions?.data?.transactions)
       setAllCustomers(transactions?.data?.customers)
@@ -65,6 +67,11 @@ export default function TransactionsList() {
     <>
       <Title title={"All Customers Transactions"} />
 
+      <div className="addGroup w-100  d-flex justify-content-end px-5 py-3">
+        <button className="btn btn-dark me-4 px-4" onClick={()=>navigate('charts')}>Go To Customers Charts</button>
+      </div>
+
+
       <Filter getItems={getFilterdData} />
 
       <div className="tableContainer w-100">
@@ -75,26 +82,24 @@ export default function TransactionsList() {
         :(
           allCustomers?.length > 0 ? 
           (
-            <table className="table ">
+            <table className="table">
             <thead>
               <tr className='tableHead border-bottom'>
                 <th className='py-4 border-0 thleft thbg' scope="col">#</th>
-                <th className='py-4 border-0 thcenter thbg' scope="col"> Name</th>
+                <th className='py-4 border-0 thcenter thbg' scope="col"> Customer Name</th>
                 <th className='py-4 border-0 thright thbg' scope="col">Amount</th>
                 <th className='py-4 border-0 thright thbg' scope="col">Transaction Date</th>
-                <th className='py-4 border-0 thright thbg' scope="col">Chart</th>
               </tr>
             </thead>
             <tbody>
               {
-                    // DataPerPage?.map((group, index) => (
-                      DataPerPage?.map((transaction,index)=>
+                    // DataPerPage?.map((transaction, index) => 
+                      allTransactions?.map((transaction,index)=>
                           <tr className='' key={transaction.id}>
                           <th className={index%2==0?'bg-white border-0':'bg-light border-0'} scope="row">{transaction.id}</th>
                           <td className={index%2==0?'bg-white border-0':'bg-light border-0'}>{allData?.customers[transaction.customer_id-1]?.name}</td>
                           <td className={index%2==0?'bg-white border-0':'bg-light border-0'}>{transaction.amount}</td>
                           <td className={index%2==0?'bg-white border-0':'bg-light border-0'}>{transaction.date}</td>
-                          <td className={index%2==0?'bg-white border-0':'bg-light border-0'}> <button className="btn border-0">go to chart <i className="fa fa-arrow-right text-warning"></i></button> </td>
                         </tr>
               )}
             </tbody>
@@ -103,7 +108,9 @@ export default function TransactionsList() {
               
         ) } 
 
-        <nav aria-label="Page navigation example" className="d-flex justify-content-center my-4">
+        {/* pagination */}
+
+        {/* <nav aria-label="Page navigation example" className="d-flex justify-content-center my-4">
               <ul class="pagination mt-3">
                 <li class="page-item">
                   <a
@@ -136,7 +143,7 @@ export default function TransactionsList() {
                   </a>
                 </li>
               </ul>
-            </nav>
+            </nav> */}
       </div>
       </div>
     </>
